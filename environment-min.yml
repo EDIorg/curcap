@@ -1,0 +1,11 @@
+name: curcap
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas
+  - matplotlib
+  - lxml
+  - requests
+prefix: /opt/miniconda3/envs/curcap
