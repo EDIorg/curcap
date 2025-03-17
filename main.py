@@ -2,10 +2,12 @@
 # packages published to the EDI repository, and estimates the curation capacity
 # required to keep up with the rate of data submissions.
 
+from config import Config
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
+import psycopg
 
 
 def plot_data(data_file, plot_title, output_file, high_quality_max = None, low_quality_max = None, show_capacity=False, ):
@@ -275,6 +277,29 @@ def average_capacity(core_max_hrs, core_min_hrs, ancillary_max_hrs, ancillary_mi
         'total_min_update',
         ])
     return res
+
+
+def fetch_resource_registry():
+    """Fetches the first 10 rows of resource_id and doi from the resource_registry table."""
+    db_params = {
+        "dbname": "datapackagemanager",
+        "user": Config.USER,  # Use username from Config
+        "password": Config.PASSWORD,  # Use password from Config
+        "host": "package-d.lternet.edu",
+        "port": 5432
+    }
+
+    query = "SELECT resource_id, doi FROM datapackagemanager.resource_registry LIMIT 10;"
+
+    try:
+        with psycopg.connect(**db_params) as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                results = cur.fetchall()
+        return results
+    except Exception as e:
+        print(f"Database query failed: {e}")
+        return None
 
 
 
