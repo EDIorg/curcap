@@ -8,4 +8,5 @@ dependencies:
   - matplotlib
   - lxml
   - requests
+  - psycopg
 prefix: /opt/miniconda3/envs/curcap
