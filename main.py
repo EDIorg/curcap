@@ -279,23 +279,34 @@ def average_capacity(core_max_hrs, core_min_hrs, ancillary_max_hrs, ancillary_mi
     return res
 
 
-def fetch_resource_registry():
-    """Fetches the first 10 rows of resource_id and doi from the resource_registry table."""
+def write_curator_published_data_packages() -> None:
+    """Creates the curator_published_data_packages.csv used in this analysis
+    in the current working directory."""
+
     db_params = {
-        "dbname": "datapackagemanager",
+        "dbname": "pasta",
         "user": Config.USER,  # Use username from Config
         "password": Config.PASSWORD,  # Use password from Config
         "host": "package-d.lternet.edu",
-        "port": 5432
+        "port": 5432,
     }
 
-    query = "SELECT resource_id, doi FROM datapackagemanager.resource_registry LIMIT 10;"
+    query = """
+        select principal_owner, package_id, date_created 
+        from datapackagemanager.resource_registry
+        where package_id like '%edi%' 
+        and principal_owner ~* 'UID=EDI|UID=csmith|UID=sgrossmanclarke1|
+        UID=mobrien|UID=kzollovenecek|UID=jlemaire|UID=bmcafee|UID=skskoglund|
+        UID=cgries|UID=gmaurer';
+    """
 
     try:
         with psycopg.connect(**db_params) as conn:
             with conn.cursor() as cur:
                 cur.execute(query)
                 results = cur.fetchall()
+                df = pd.DataFrame(results, columns=['principal', 'pid', 'datetime'])
+                df.to_csv("curator_published_data_packages.csv", index=False)
         return results
     except Exception as e:
         print(f"Database query failed: {e}")
@@ -306,18 +317,8 @@ def fetch_resource_registry():
 
 if __name__ == "__main__":
 
-    effort = average_curation_effort(
-        data_file="data_submission_log.tsv",
-        include_std=True
-    )
-
-    capacity = average_capacity(
-        core_max_hrs=10,
-        core_min_hrs=9,
-        ancillary_max_hrs=15.0,
-        ancillary_min_hrs=6.4,
-        effort=effort
-    )
+    # Update curator_published_data_packages.csv
+    write_curator_published_data_packages()
 
     # Plot Data Submissions Over Time
     plot_data(
