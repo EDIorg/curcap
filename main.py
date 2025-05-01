@@ -39,18 +39,27 @@ def plot_data(data_file, plot_title, output_file, high_quality_max = None, low_q
 
     # Convert datetime a DatetimeIndex
     data['datetime'] = pd.to_datetime(data['datetime'])
+    data = data.sort_values(by='datetime')
+
+    # Remove non-unique rows from 'pid' column, keeping the first occurrence
+    data = data.drop_duplicates(subset='pid', keep='first')
 
     # Group data by week and calculate total applications
     weekly_data = data.groupby(pd.Grouper(key='datetime', freq='W')).size()
 
-    # Remove outliers; values over 17. These correspond with high rates of
-    # ecocomDP package publications, which are not representative of the
-    # typical data curation workload.
-    weekly_data = weekly_data[weekly_data < outlier_threshold]
+    # Remove outliers; values over 17, before 2023-01-01. These correspond with
+    # high rates of ecocomDP package publications, which are not representative
+    # of the typical data curation workload.
+    weekly_data = weekly_data.copy()
+    for idx, value in weekly_data.items():
+        if idx < pd.to_datetime('2023-01-01') and value >= outlier_threshold:
+            weekly_data[idx] = None
+    weekly_data = weekly_data.dropna()
 
     # Create the scatter plot
     plt.figure(figsize=(12, 6))
     plt.scatter(weekly_data.index, weekly_data.values, color='grey', s=2.5, alpha=0.5)
+    plt.ylim(0, weekly_data.max() + 1)
 
     # Format x-axis as dates
     plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=3))
@@ -71,7 +80,7 @@ def plot_data(data_file, plot_title, output_file, high_quality_max = None, low_q
 
     # # Remove zero values from the data for exponential trend line
     # weekly_data = weekly_data[weekly_data > 0]
-    #
+
     # # Fit exponential trend line to data
     # x = np.arange(len(weekly_data))
     # y = weekly_data.values
@@ -287,7 +296,7 @@ def write_curator_published_data_packages() -> None:
         "dbname": "pasta",
         "user": Config.USER,  # Use username from Config
         "password": Config.PASSWORD,  # Use password from Config
-        "host": "package-d.lternet.edu",
+        "host": "package.lternet.edu",
         "port": 5432,
     }
 
@@ -317,37 +326,37 @@ def write_curator_published_data_packages() -> None:
 
 if __name__ == "__main__":
 
-    # Update curator_published_data_packages.csv
-    write_curator_published_data_packages()
+    # # Update curator_published_data_packages.csv
+    # write_curator_published_data_packages()
+
+
 
     # Plot Data Submissions Over Time
     plot_data(
         data_file="curator_published_data_packages.csv",
-        high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
-        low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
         show_capacity=False,
         plot_title="Data Submissions Over Time",
         output_file='data_submissions_over_time.png'
     )
 
-    # Plot Data Submissions Over Time and Core Curation Team Capacities
-    plot_data(
-        data_file="curator_published_data_packages.csv",
-        high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
-        low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
-        show_capacity=True,
-        plot_title="Data Submissions Over Time and Core Curation Team Capacities",
-        output_file="data_submissions_with_core_capacity.png"
-    )
-
-    # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
-    plot_data(
-        data_file="curator_published_data_packages.csv",
-        high_quality_max=capacity.loc['total_max_new', 'high_quality_capacity'],
-        low_quality_max=capacity.loc['total_max_new', 'low_quality_capacity'],
-        show_capacity=True,
-        plot_title="Data Submissions Over Time and Core + Ancillary Curation Team Capacities",
-        output_file="data_submissions_with_core_and_ancillary_capacity.png"
-    )
+    # # Plot Data Submissions Over Time and Core Curation Team Capacities
+    # plot_data(
+    #     data_file="curator_published_data_packages.csv",
+    #     high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
+    #     low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
+    #     show_capacity=True,
+    #     plot_title="Data Submissions Over Time and Core Curation Team Capacities",
+    #     output_file="data_submissions_with_core_capacity.png"
+    # )
+    #
+    # # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
+    # plot_data(
+    #     data_file="curator_published_data_packages.csv",
+    #     high_quality_max=capacity.loc['total_max_new', 'high_quality_capacity'],
+    #     low_quality_max=capacity.loc['totafl_max_new', 'low_quality_capacity'],
+    #     show_capacity=True,
+    #     plot_title="Data Submissions Over Time and Core + Ancillary Curation Team Capacities",
+    #     output_file="data_submissions_with_core_and_ancillary_capacity.png"
+    # )
 
 
