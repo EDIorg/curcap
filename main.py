@@ -51,6 +51,7 @@ def plot_data(data_file, plot_title, output_file, high_quality_max = None, low_q
     # high rates of ecocomDP package publications, which are not representative
     # of the typical data curation workload.
     weekly_data = weekly_data.copy()
+    print(f'Most recent submission rate: {weekly_data.values[-1]}')  # for reporting
     for idx, value in weekly_data.items():
         if idx < pd.to_datetime('2023-01-01') and value >= outlier_threshold:
             weekly_data[idx] = None
