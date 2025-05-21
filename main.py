@@ -106,7 +106,7 @@ def plot_data(data_file, plot_title, output_file, high_quality_max = None, low_q
     plt.ylabel("Number of Packages / Week")
     if show_capacity:
         plt.title(plot_title, loc='left')
-        plt.yticks(np.arange(0, weekly_data.max() + 18, 2))
+        plt.yticks(np.arange(0, weekly_data.max() + 16, 2))
     else:
         plt.title(plot_title, loc='left')
         plt.yticks(np.arange(0, weekly_data.max() + 1, 2))
@@ -330,34 +330,49 @@ if __name__ == "__main__":
     # # Update curator_published_data_packages.csv
     # write_curator_published_data_packages()
 
-
-
-    # Plot Data Submissions Over Time
-    plot_data(
-        data_file="curator_published_data_packages.csv",
-        show_capacity=False,
-        plot_title="Data Submissions Over Time",
-        output_file='data_submissions_over_time.png'
+    # Calculate average curation effort
+    effort = average_curation_effort(
+        data_file="data_submission_log.tsv",
+        high_quality_multiplier=1,
+        low_quality_multiplier=0.5,
+        include_std=True
     )
 
-    # # Plot Data Submissions Over Time and Core Curation Team Capacities
+    # Calculate average curation capacity
+    capacity = average_capacity(
+        core_max_hrs=16,
+        core_min_hrs=4,
+        ancillary_max_hrs=9,
+        ancillary_min_hrs=6,
+        effort=effort
+    )
+
+    # # Plot Data Submissions Over Time
     # plot_data(
     #     data_file="curator_published_data_packages.csv",
-    #     high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
-    #     low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
-    #     show_capacity=True,
-    #     plot_title="Data Submissions Over Time and Core Curation Team Capacities",
-    #     output_file="data_submissions_with_core_capacity.png"
+    #     show_capacity=False,
+    #     plot_title="Data Submissions Over Time",
+    #     output_file='data_submissions_over_time.png'
     # )
-    #
-    # # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
-    # plot_data(
-    #     data_file="curator_published_data_packages.csv",
-    #     high_quality_max=capacity.loc['total_max_new', 'high_quality_capacity'],
-    #     low_quality_max=capacity.loc['totafl_max_new', 'low_quality_capacity'],
-    #     show_capacity=True,
-    #     plot_title="Data Submissions Over Time and Core + Ancillary Curation Team Capacities",
-    #     output_file="data_submissions_with_core_and_ancillary_capacity.png"
-    # )
+
+    # Plot Data Submissions Over Time and Core Curation Team Capacities
+    plot_data(
+        data_file="curator_published_data_packages.csv",
+        high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
+        low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
+        show_capacity=True,
+        plot_title="Data Submissions Over Time and Core Curation Team Capacities",
+        output_file="data_submissions_with_core_capacity.png"
+    )
+
+    # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
+    plot_data(
+        data_file="curator_published_data_packages.csv",
+        high_quality_max=capacity.loc['total_max_new', 'high_quality_capacity'],
+        low_quality_max=capacity.loc['total_max_new', 'low_quality_capacity'],
+        show_capacity=True,
+        plot_title="Data Submissions Over Time and Core + Ancillary Curation Team Capacities",
+        output_file="data_submissions_with_core_and_ancillary_capacity.png"
+    )
 
 
