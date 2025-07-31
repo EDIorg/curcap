@@ -327,8 +327,8 @@ def write_curator_published_data_packages() -> None:
 
 if __name__ == "__main__":
 
-    # # Update curator_published_data_packages.csv
-    # write_curator_published_data_packages()
+    # Update curator_published_data_packages.csv
+    write_curator_published_data_packages()
 
     # Calculate average curation effort
     effort = average_curation_effort(
@@ -347,14 +347,14 @@ if __name__ == "__main__":
         effort=effort
     )
 
-    # # Plot Data Submissions Over Time
-    # plot_data(
-    #     data_file="curator_published_data_packages.csv",
-    #     show_capacity=False,
-    #     plot_title="Data Submissions Over Time",
-    #     output_file='data_submissions_over_time.png'
-    # )
-
+    # # # Plot Data Submissions Over Time
+    # # plot_data(
+    # #     data_file="curator_published_data_packages.csv",
+    # #     show_capacity=False,
+    # #     plot_title="Data Submissions Over Time",
+    # #     output_file='data_submissions_over_time.png'
+    # # )
+    #
     # Plot Data Submissions Over Time and Core Curation Team Capacities
     plot_data(
         data_file="curator_published_data_packages.csv",
@@ -365,14 +365,14 @@ if __name__ == "__main__":
         output_file="data_submissions_with_core_capacity.png"
     )
 
-    # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
-    plot_data(
-        data_file="curator_published_data_packages.csv",
-        high_quality_max=capacity.loc['total_max_new', 'high_quality_capacity'],
-        low_quality_max=capacity.loc['total_max_new', 'low_quality_capacity'],
-        show_capacity=True,
-        plot_title="Data Submissions Over Time and Core + Ancillary Curation Team Capacities",
-        output_file="data_submissions_with_core_and_ancillary_capacity.png"
-    )
-
-
+    # # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
+    # plot_data(
+    #     data_file="curator_published_data_packages.csv",
+    #     high_quality_max=capacity.loc['total_max_new', 'high_quality_capacity'],
+    #     low_quality_max=capacity.loc['total_max_new', 'low_quality_capacity'],
+    #     show_capacity=True,
+    #     plot_title="Data Submissions Over Time and Core + Ancillary Curation Team Capacities",
+    #     output_file="data_submissions_with_core_and_ancillary_capacity.png"
+    # )
+    #
+    #
