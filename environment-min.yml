@@ -3,10 +3,10 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.11
-  - pandas
   - matplotlib
+  - psycopg
+  - pandas
   - lxml
   - requests
-  - psycopg
+  - python=3.11
 prefix: /opt/miniconda3/envs/curcap
