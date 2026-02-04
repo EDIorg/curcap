@@ -63,14 +63,14 @@ dependencies:
   - matplotlib-base=3.10.8
   - munkres=1.1.4
   - ncurses=6.5
-  - numpy=2.4.1
+  - numpy=2.4.2
   - openjpeg=2.5.4
   - openldap=2.6.10
-  - openssl=3.6.0
+  - openssl=3.6.1
   - packaging=26.0
   - pandas=3.0.0
   - pillow=12.1.0
-  - pip=25.3
+  - pip=26.0
   - psycopg=3.3.2
   - psycopg-c=3.3.2
   - pthread-stubs=0.4
@@ -82,7 +82,7 @@ dependencies:
   - qhull=2020.2
   - readline=8.3
   - requests=2.32.5
-  - setuptools=80.10.1
+  - setuptools=80.10.2
   - six=1.17.0
   - tk=8.6.13
   - tornado=6.5.4
@@ -91,9 +91,9 @@ dependencies:
   - tzdata=2025c
   - unicodedata2=17.0.0
   - urllib3=2.6.3
-  - wheel=0.46.2
+  - wheel=0.46.3
   - xorg-libxau=1.0.12
   - xorg-libxdmcp=1.1.5
-  - zlib-ng=2.3.2
+  - zlib-ng=2.3.3
   - zstd=1.5.7
 prefix: /opt/miniconda3/envs/curcap
