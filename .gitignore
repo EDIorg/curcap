@@ -3,3 +3,6 @@
 .DS_Store
 config.py
 .idea/
+__pycache__
+data_submission_log.csv
+curator_published_data_packages.csv
