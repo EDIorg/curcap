@@ -6,3 +6,5 @@ config.py
 __pycache__
 data_submission_log.csv
 curator_published_data_packages.csv
+data_submissions_over_time.png
+data_submissions_with_core_capacity.png
