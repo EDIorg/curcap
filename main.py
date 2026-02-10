@@ -30,7 +30,7 @@ def plot_data(data_file, plot_title, output_file, high_quality_max = None, low_q
     """
     # Parameterize this function
     rolling_window = 13  # units = weeks
-    outlier_threshold = 17  # remove values over this threshold
+    outlier_threshold = 25  # remove values over this threshold
     high_quality_high = high_quality_max  # the maximum number of packages that can be curated per week, when applying high quality effort
     low_quality_high = low_quality_max  # maximum number of packages that can be curated per week, when applying bare minimum effort
 
@@ -305,9 +305,7 @@ def write_curator_published_data_packages() -> None:
         select principal_owner, package_id, date_created 
         from datapackagemanager.resource_registry
         where package_id like '%edi%' 
-        and principal_owner ~* 'UID=EDI|UID=csmith|UID=sgrossmanclarke1|
-        UID=mobrien|UID=kzollovenecek|UID=jlemaire|UID=bmcafee|UID=skskoglund|
-        UID=cgries|UID=gmaurer';
+        and principal_owner ~* 'EDI-166ebf44ac70835c7ebce152e2219ae5eab16418|EDI-543afa80c859825d35d37d9111c24a4a65a0db9f|EDI-264b34bd147efa3195ec9dd6db8ca4c60dcd6cd8|EDI-abdb1ad3e4f1715fb1994b49e15a4c7d40b98ae6|EDI-dd15f447f13f13482e4bfb1533ad04599509eb31|EDI-083b1fc712c21a65ce50237709dc5770e5e1142d|EDI-d472d8d5a77352ea0931d9db940e950cbeb7e52a|EDI-b162c0e7a462bf9d81753aad49a1b8ff7e481c1d|EDI-8e9b498a9db93d64923b3ba15aeb0f4ee9fb49db|EDI-fec070b471e2e545210090b49d3d5aae0a199843|EDI-1a2a46d9c5d3cfa7e1d9ccfe289d50ee0d089b32';
     """
 
     try:
@@ -328,7 +326,7 @@ def write_curator_published_data_packages() -> None:
 if __name__ == "__main__":
 
     # Update curator_published_data_packages.csv
-    write_curator_published_data_packages()
+    # write_curator_published_data_packages()
 
     # Calculate average curation effort
     effort = average_curation_effort(
@@ -354,16 +352,16 @@ if __name__ == "__main__":
         plot_title="Data Submissions Over Time",
         output_file='data_submissions_over_time.png'
     )
-    #
-    # # Plot Data Submissions Over Time and Core Curation Team Capacities
-    # plot_data(
-    #     data_file="curator_published_data_packages.csv",
-    #     high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
-    #     low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
-    #     show_capacity=True,
-    #     plot_title="Data Submissions Over Time and Core Curation Team Capacities",
-    #     output_file="data_submissions_with_core_capacity.png"
-    # )
+
+    # Plot Data Submissions Over Time and Core Curation Team Capacities
+    plot_data(
+        data_file="curator_published_data_packages.csv",
+        high_quality_max=capacity.loc['core_max_new', 'high_quality_capacity'],
+        low_quality_max=capacity.loc['core_max_new', 'low_quality_capacity'],
+        show_capacity=True,
+        plot_title="Data Submissions Over Time and Core Curation Team Capacities",
+        output_file="data_submissions_with_core_capacity.png"
+    )
 
     # # Plot Data Submissions Over Time and Core + Ancillary Curation Team Capacities
     # plot_data(
