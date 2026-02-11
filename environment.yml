@@ -47,7 +47,7 @@ dependencies:
   - liblzma=5.8.2
   - libntlm=1.8
   - libopenblas=0.3.30
-  - libpng=1.6.54
+  - libpng=1.6.55
   - libpq=18.1
   - libsqlite=3.51.2
   - libtiff=4.7.1
@@ -69,8 +69,8 @@ dependencies:
   - openssl=3.6.1
   - packaging=26.0
   - pandas=3.0.0
-  - pillow=12.1.0
-  - pip=26.0
+  - pillow=12.1.1
+  - pip=26.0.1
   - psycopg=3.3.2
   - psycopg-c=3.3.2
   - pthread-stubs=0.4
@@ -82,7 +82,7 @@ dependencies:
   - qhull=2020.2
   - readline=8.3
   - requests=2.32.5
-  - setuptools=80.10.2
+  - setuptools=82.0.0
   - six=1.17.0
   - tk=8.6.13
   - tornado=6.5.4
