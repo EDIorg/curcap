@@ -1,4 +1,4 @@
-backports.zstd==1.4.0
+backports.zstd==1.5.0
 Brotli==1.2.0
 certifi==2026.4.22
 charset-normalizer==3.4.7
@@ -13,9 +13,9 @@ kiwisolver==1.5.0
 lxml==6.1.0
 matplotlib==3.10.9
 munkres==1.1.4
-numpy==2.4.3
+numpy==2.4.4
 packaging==26.2
-pandas==3.0.2
+pandas==3.0.3
 pillow==12.2.0
 pip==26.1.1
 psycopg==3.3.4
@@ -23,11 +23,11 @@ psycopg-c==3.3.4
 pyparsing==3.3.2
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
-requests==2.33.1
+requests==2.34.0
 setuptools==82.0.1
 six==1.17.0
 tornado==6.5.5
 typing_extensions==4.15.0
 unicodedata2==17.0.1
-urllib3==2.6.3
+urllib3==2.7.0
 wheel==0.47.0
